@@ -43,7 +43,7 @@ export function Navbar() {
               <div className="flex flex-col gap-6">
                 <div className="flex items-center gap-2">
                   <Newspaper className="h-6 w-6 text-primary" />
-                  <span className="text-lg font-semibold">NewsDaily</span>
+                  <img src={"/newslogo.jpg"}/>
                 </div>
                 <Separator />
                 <nav className="flex flex-col gap-4">
@@ -95,9 +95,7 @@ export function Navbar() {
         <div className="flex items-center gap-10">
           <Link href="/" className="flex items-center gap-2">
             <Newspaper className="h-6 w-6 text-primary" />
-            <span className="text-lg font-semibold hidden sm:inline-block">
-              NewsDaily
-            </span>
+            <img src={"/newslogo.jpg"}/>
           </Link>
 
           <nav className="hidden md:flex items-center gap-6">
