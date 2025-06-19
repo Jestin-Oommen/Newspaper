@@ -1,54 +1,87 @@
-import { prisma } from "../../../lib/prisma";
-import { notFound } from "next/navigation";
-import Link from "next/link";
-import GoogleAd from "../../../components/GoogleAd";
+'use client';
 
-// ✅ Fix: properly define the function with 'params' from Next.js
-interface PageProps {
-  params: {
-    id: string;
-  };
-}
+import { useEffect, useState } from 'react';
+import { notFound, useParams } from 'next/navigation';
+import Link from 'next/link';
+import GoogleAd from '../../../components/GoogleAd';
+import { Skeleton } from '../../../components/ui/skeleton';
 
-export default async function NewsPage({ params }: PageProps) {
-  const article = await prisma.article.findUnique({
-    where: { id: params.id },
-  });
+type Article = {
+  id: string;
+  title: string;
+  description: string;
+  content: string;
+  imageUrl?: string;
+  category: string;
+  author: string;
+};
 
-  if (!article) return notFound();
+export default function NewsPage() {
+  const { id } = useParams();
+  const [article, setArticle] = useState<Article | null>(null);
+  const [similarNews, setSimilarNews] = useState<Article[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [notFoundError, setNotFoundError] = useState(false);
 
-  const similarNews = await prisma.article.findMany({
-    where: {
-      category: article.category,
-      NOT: { id: article.id },
-    },
-    take: 4,
-    orderBy: { createdAt: "desc" },
-  });
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await fetch(`/api/articles/${id}`);
+        if (!res.ok) {
+          setNotFoundError(true);
+          return;
+        }
+
+        const data = await res.json();
+        setArticle(data.article);
+        setSimilarNews(data.similarNews);
+      } catch (err) {
+        console.error('Error fetching article:', err);
+        setNotFoundError(true);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchData();
+  }, [id]);
+
+  if (notFoundError) return <p className="text-center mt-10 text-red-600">Article not found.</p>;
+
+  if (loading) {
+    return (
+      <div className="max-w-3xl mx-auto py-10 px-4 space-y-6">
+        <Skeleton className="w-full h-10" />
+        <Skeleton className="w-full h-64 rounded" />
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="h-4 w-1/2" />
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-3xl mx-auto py-10 px-4 space-y-8">
       <div>
-        <h1 className="text-3xl font-bold">{article.title}</h1>
+        <h1 className="text-3xl font-bold">{article?.title}</h1>
         <p className="text-gray-500 text-sm">
-          By {article.author || "Unknown"} in {article.category}
+          By {article?.author || 'Unknown'} in {article?.category}
         </p>
-        {article.imageUrl && (
+        {article?.imageUrl && (
           <img
             src={article.imageUrl}
             alt={article.title}
             className="w-full h-64 object-cover rounded my-4"
           />
         )}
-        <p className="text-lg">{article.description}</p>
-        <div className="prose max-w-none mt-4">{article.content}</div>
+        <p className="text-lg">{article?.description}</p>
+        <div className="prose max-w-none mt-4">{article?.content}</div>
       </div>
 
       {/* 🔗 Similar Articles Section */}
       {similarNews.length > 0 && (
         <div className="border-t pt-6">
           <h2 className="text-xl font-semibold mb-4">
-            More in {article.category}
+            More in {article?.category}
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {similarNews.map((news) => (
