@@ -1,12 +1,18 @@
 import { prisma } from "../../../../lib/prisma";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
+  req: NextRequest,
+  context: { params: { id: string } }
 ) {
+  const { id } = context.params;
+
+  if (!id) {
+    return NextResponse.json({ error: "Missing ID param" }, { status: 400 });
+  }
+
   const article = await prisma.article.findUnique({
-    where: { id: params.id },
+    where: { id },
   });
 
   if (!article) {
@@ -22,8 +28,5 @@ export async function GET(
     orderBy: { createdAt: "desc" },
   });
 
-  return NextResponse.json({
-    article,
-    similarNews,
-  });
+  return NextResponse.json({ article, similarNews });
 }
