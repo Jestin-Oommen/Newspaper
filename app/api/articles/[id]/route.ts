@@ -1,11 +1,12 @@
-import { prisma } from "../../../../lib/prisma"; // adjust if needed
-import { NextResponse } from "next/server";
+import { prisma } from "../../../../lib/prisma";
+import { NextResponse, type NextRequest } from "next/server";
 
+// ✅ Use the correct type for context
 export async function GET(
-  request: Request,
-  context: { params: { id: string } }
+  request: NextRequest,
+  { params }: { params: { id: string } }
 ) {
-  const { id } = context.params;
+  const { id } = params;
 
   if (!id) {
     return NextResponse.json({ error: "Missing ID param" }, { status: 400 });
