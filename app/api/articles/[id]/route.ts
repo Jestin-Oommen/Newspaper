@@ -1,11 +1,10 @@
-import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "../../../../lib/prisma";
+import { prisma } from "../../../../lib/prisma"; // adjust if needed
+import { NextResponse } from "next/server";
 
-interface Context {
-  params: { id: string };
-}
-
-export async function GET(req: NextRequest, context: Context) {
+export async function GET(
+  request: Request,
+  context: { params: { id: string } }
+) {
   const { id } = context.params;
 
   if (!id) {
