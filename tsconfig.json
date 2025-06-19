@@ -28,7 +28,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "components/NewsForm.jsx", "prisma/seed.js", "components/PoliticsNews.jsx"  ],
+, "components/NewsForm.jsx", "prisma/seed.js", "components/PoliticsNews.tsx"  ],
   "exclude": [
     "node_modules"
   ]

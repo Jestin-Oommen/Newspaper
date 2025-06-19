@@ -28,12 +28,12 @@ export default function TravelNews() {
 
   return (
     <section className="py-8">
-      <h2 className="text-xl font-bold mb-4">Travel</h2>
+      <h2 className="text-2xl font-bold mb-4">Travel</h2>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {articles.map((article) => (
           <a
             key={article.id}
-            href={article.link || '#'}
+            href={`/news/${article.id}`}
             className="block hover:shadow-md bg-white border p-3 rounded transition"
           >
             <img

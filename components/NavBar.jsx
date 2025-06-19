@@ -30,6 +30,7 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
+        
         {/* Mobile menu */}
         <div className="md:hidden">
           <Sheet>
@@ -41,9 +42,9 @@ export function Navbar() {
             </SheetTrigger>
             <SheetContent side="left" className="w-[300px] sm:w-[400px]">
               <div className="flex flex-col gap-6">
-                <div className="flex items-center gap-2">
-                  <Newspaper className="h-6 w-6 text-primary" />
-                  <span className="text-lg font-semibold">Rashtra Prabha</span>
+                <div className="flex items-center gap-2"> 
+                  <img src="/newslogo.jpg" alt="Logo" className="h-15 w-30" />
+                  
                 </div>
                 <Separator />
                 <nav className="flex flex-col gap-4">
@@ -94,10 +95,8 @@ export function Navbar() {
         {/* Logo and desktop nav */}
         <div className="flex items-center gap-10">
           <Link href="/" className="flex items-center gap-2">
-            <Newspaper className="h-6 w-6 text-primary" />
-            <span className="text-lg font-semibold hidden sm:inline-block">
-              Rashtra Prabha
-            </span>
+            <img src="/newslogo.jpg" alt="Logo" className="h-10 w-40" />
+            
           </Link>
 
           <nav className="hidden md:flex items-center gap-6">
