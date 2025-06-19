@@ -3,14 +3,20 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import GoogleAd from "../../../components/GoogleAd";
 
-export default async function NewsPage({ params }: { params: { id: string } }) {
+// ✅ Fix: properly define the function with 'params' from Next.js
+interface PageProps {
+  params: {
+    id: string;
+  };
+}
+
+export default async function NewsPage({ params }: PageProps) {
   const article = await prisma.article.findUnique({
     where: { id: params.id },
   });
 
   if (!article) return notFound();
 
-  // 🔍 Fetch similar articles from same category
   const similarNews = await prisma.article.findMany({
     where: {
       category: article.category,
@@ -21,7 +27,6 @@ export default async function NewsPage({ params }: { params: { id: string } }) {
   });
 
   return (
-    
     <div className="max-w-3xl mx-auto py-10 px-4 space-y-8">
       <div>
         <h1 className="text-3xl font-bold">{article.title}</h1>
