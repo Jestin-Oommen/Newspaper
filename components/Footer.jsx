@@ -20,10 +20,10 @@ export default function Footer() {
           <h3 className="text-lg font-semibold mb-3">Quick Links</h3>
           <ul className="space-y-2 text-sm">
             <li><Link href="/" className="hover:underline">Home</Link></li>
-            <li><Link href="/business" className="hover:underline">Business</Link></li>
-            <li><Link href="/politics" className="hover:underline">Politics</Link></li>
-            <li><Link href="/travel" className="hover:underline">Travel</Link></li>
-            <li><Link href="/contact" className="hover:underline">Contact</Link></li>
+            <li><Link href="/category/business" className="hover:underline">Business</Link></li>
+            <li><Link href="/category/politics" className="hover:underline">Politics</Link></li>
+            <li><Link href="/category/travel" className="hover:underline">Travel</Link></li>
+            
           </ul>
         </div>
 

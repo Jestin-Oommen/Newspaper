@@ -8,6 +8,8 @@ type Article = {
   title: string;
   imageUrl: string;
   content: string;
+  createdAt:string;
+  
 };
 
 const BusinessNews = () => {
@@ -19,6 +21,7 @@ const BusinessNews = () => {
         const res = await fetch('/api/articles/business');
         const data = await res.json();
         setArticles(data);
+        
       } catch (err) {
         console.error('Failed to load articles:', err);
         setArticles([]);
@@ -54,6 +57,10 @@ const BusinessNews = () => {
                   className="w-full h-32 object-cover rounded"
                 />
                 <h4 className="text-sm font-semibold">{article.title}</h4>
+                <p className="text-xs text-muted-foreground">
+                {new Date(article.createdAt).toLocaleDateString()}
+              </p>
+                
               </a>
             ))}
       </div>

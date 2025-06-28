@@ -27,3 +27,34 @@ export async function GET(request, context) {
 
   return NextResponse.json({ article, similarNews });
 }
+
+
+export async function DELETE(_, { params }) {
+  try {
+    await prisma.article.delete({
+      where: { id: params.id },
+    });
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    return NextResponse.json({ error: 'Failed to delete article' }, { status: 500 });
+  }
+}
+
+export async function PUT(req, { params }) {
+  try {
+    const data = await req.json();
+
+    const updated = await prisma.article.update({
+      where: { id: params.id },
+      data,
+    });
+
+    return NextResponse.json(updated);
+  } catch (error) {
+    console.error('Failed to update article:', error);
+    return NextResponse.json(
+      { error: 'Failed to update article' },
+      { status: 500 }
+    );
+  }
+}

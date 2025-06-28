@@ -10,6 +10,7 @@ type Article = {
   description: string;
   imageUrl: string;
   link?: string;
+  createdAt:string;
 };
 
 export default function MainNews() {
@@ -54,6 +55,10 @@ export default function MainNews() {
             />
             <h1 className="text-2xl font-bold">{mainHeadline.title}</h1>
             <p className="text-gray-600">{mainHeadline.description}</p>
+            <p className="text-xs text-muted-foreground">
+                {new Date(mainHeadline.createdAt).toLocaleDateString()}
+              </p>
+
             <Link
               href={`/news/${mainHeadline.id}`}
               className="inline-block mt-2 text-blue-600 font-medium hover:underline"
@@ -89,6 +94,9 @@ export default function MainNews() {
                   className="w-full h-24 object-cover rounded mb-2"
                 />
                 <h4 className="text-sm font-semibold">{news.title}</h4>
+                <p className="text-xs text-muted-foreground">
+                {new Date(mainHeadline.createdAt).toLocaleDateString()}
+              </p>
               </Link>
             ))}
       </div>

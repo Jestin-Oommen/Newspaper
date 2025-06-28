@@ -7,6 +7,7 @@ type Article = {
   title: string;
   imageUrl: string;
   link?: string;
+  createdAt:string;
 };
 
 export default function TravelNews() {
@@ -42,6 +43,9 @@ export default function TravelNews() {
               className="w-full h-32 object-cover rounded mb-2"
             />
             <h4 className="text-sm font-semibold">{article.title}</h4>
+            <p className="text-xs text-muted-foreground">
+                {new Date(article.createdAt).toLocaleDateString()}
+              </p>
           </a>
         ))}
       </div>

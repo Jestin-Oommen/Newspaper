@@ -9,6 +9,7 @@ export async function GET() {
       where: { category: 'business' },
       orderBy: { createdAt: 'desc' },
       take: 10,
+      
     });
 
     return NextResponse.json(articles);

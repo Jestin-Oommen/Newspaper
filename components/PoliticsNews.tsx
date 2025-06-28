@@ -93,6 +93,9 @@ export default function PoliticsNews() {
                   />
                   <div>
                     <h4 className="text-sm font-semibold">{item.title}</h4>
+                    <p className="text-xs text-muted-foreground ">
+                {new Date(item.createdAt).toLocaleDateString()}
+              </p>
                     <p className="text-xs text-gray-500">
                       Click to read the full article.
                     </p>

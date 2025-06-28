@@ -10,12 +10,20 @@ import {
 } from "./ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { Separator } from "./ui/separator";
-import { Menu, Newspaper, Search, X } from "lucide-react";
+import { Menu, Search } from "lucide-react";
 import { Input } from "./ui/input";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export function Navbar() {
   const [searchQuery, setSearchQuery] = useState("");
+  const router = useRouter();
+
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      router.push(`/search?query=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
 
   const categories = [
     { name: "Politics", slug: "politics" },
@@ -30,7 +38,6 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
-        
         {/* Mobile menu */}
         <div className="md:hidden">
           <Sheet>
@@ -42,9 +49,8 @@ export function Navbar() {
             </SheetTrigger>
             <SheetContent side="left" className="w-[300px] sm:w-[400px]">
               <div className="flex flex-col gap-6">
-                <div className="flex items-center gap-2"> 
+                <div className="flex items-center gap-2">
                   <img src="/newslogo.jpg" alt="Logo" className="h-15 w-30" />
-                  
                 </div>
                 <Separator />
                 <nav className="flex flex-col gap-4">
@@ -68,8 +74,8 @@ export function Navbar() {
                   <Link href="/about" className="font-medium hover:text-primary">
                     About
                   </Link>
-                  <Link href="/create" className="font-medium hover:text-primary">
-                    Create
+                  <Link href="/dashboard/news" className="font-medium hover:text-primary">
+                    Dashboard
                   </Link>
                 </nav>
                 <Separator />
@@ -83,6 +89,7 @@ export function Navbar() {
                     variant="ghost"
                     size="icon"
                     className="absolute right-0 top-0"
+                    onClick={handleSearch}
                   >
                     <Search className="h-4 w-4" />
                   </Button>
@@ -96,7 +103,6 @@ export function Navbar() {
         <div className="flex items-center gap-10">
           <Link href="/" className="flex items-center gap-2">
             <img src="/newslogo.jpg" alt="Logo" className="h-10 w-40" />
-            
           </Link>
 
           <nav className="hidden md:flex items-center gap-6">
@@ -127,10 +133,10 @@ export function Navbar() {
               About
             </Link>
             <Link
-              href="/create"
+              href="/dashboard/news"
               className="text-sm font-medium hover:text-primary transition-colors"
             >
-              Create
+              Dashboard
             </Link>
           </nav>
         </div>
@@ -143,18 +149,19 @@ export function Navbar() {
               className="w-[200px] lg:w-[300px]"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleSearch();
+              }}
             />
             <Button
               variant="ghost"
               size="icon"
               className="absolute right-0 top-0"
+              onClick={handleSearch}
             >
               <Search className="h-4 w-4" />
             </Button>
           </div>
-          <Button variant="ghost" size="icon" className="md:hidden">
-            <Search className="h-4 w-4" />
-          </Button>
           <Button variant="outline" size="sm" className="hidden sm:flex">
             Subscribe
           </Button>
