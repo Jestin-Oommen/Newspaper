@@ -14,6 +14,7 @@ type Article = {
   imageUrl?: string;
   category: string;
   author: string;
+  createdAt:string;
 };
 
 export default function NewsPage() {
@@ -62,10 +63,18 @@ export default function NewsPage() {
   return (
     <div className="max-w-3xl mx-auto py-10 px-4 space-y-8">
       <div>
+        <Link className='underline' href={"/"}>
+          <p className="text-l text-muted-foreground">
+                ⬅️Back to Home Page
+              </p>
+        </Link>
         <h1 className="text-3xl font-bold">{article?.title}</h1>
         <p className="text-gray-500 text-sm">
-          By {article?.author || 'Unknown'} in {article?.category}
+          By {article?.author || 'Unknown'} in {article?.category}  
         </p>
+        <p className="text-xs text-muted-foreground">
+                {new Date(article.createdAt).toLocaleDateString()}
+              </p>
         {article?.imageUrl && (
           <img
             src={article.imageUrl}
@@ -98,6 +107,9 @@ export default function NewsPage() {
                   />
                 )}
                 <h4 className="font-medium">{news.title}</h4>
+                <p className="text-xs text-muted-foreground">
+                {new Date(article.createdAt).toLocaleDateString()}
+              </p>
               </Link>
             ))}
           </div>
