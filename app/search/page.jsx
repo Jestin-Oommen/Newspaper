@@ -1,26 +1,27 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
-import Image from "next/image";
 
 export const dynamic = "force-dynamic";
 
-async function getSearchResults(query: string) {
+// 🧠 Helper function to fetch articles by search query
+async function getSearchResults(query) {
   if (!query) return [];
 
   return prisma.article.findMany({
     where: {
       OR: [
         { title: { contains: query, mode: "insensitive" } },
-        { description: { contains: query, mode: "insensitive" } },
-      ],
+        { description: { contains: query, mode: "insensitive" } }
+      ]
     },
     orderBy: {
-      createdAt: "desc",
-    },
+      createdAt: "desc"
+    }
   });
 }
 
-export default async function SearchPage({ searchParams }: { searchParams: { query?: string } }) {
+// 🔍 Search page component
+export default async function SearchPage({ searchParams }) {
   const query = searchParams?.query || "";
   const articles = await getSearchResults(query);
 
@@ -34,7 +35,7 @@ export default async function SearchPage({ searchParams }: { searchParams: { que
         <p className="text-gray-500">No articles found.</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {articles.map((article) => (
+          {articles.map(article => (
             <Link
               key={article.id}
               href={`/news/${article.id}`}

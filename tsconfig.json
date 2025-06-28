@@ -32,7 +32,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "components/NewsForm.jsx", "prisma/seed.js", "components/PoliticsNews.tsx", "app/api/articles/[id]/route.js", "app/api/articles/route.js", "app/manage/page.jsx", "app/dashboard/news/page.jsx"  ],
+, "components/NewsForm.jsx", "prisma/seed.js", "components/PoliticsNews.tsx", "app/api/articles/[id]/route.js", "app/api/articles/route.js", "app/manage/page.jsx", "app/dashboard/news/page.jsx", "app/search/page.jsx"  ],
   "exclude": [
     "node_modules"
   ]
