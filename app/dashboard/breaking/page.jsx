@@ -1,10 +1,11 @@
 import React from 'react'
-import BreakingNews from '../../components/BreakingNews'
+
+import BreakingNewsForm from '../../../components/BreakingNews'
 
 const page = () => {
   return (
     <div>
-      <BreakingNews/>
+      <BreakingNewsForm/>
     </div>
   )
 }

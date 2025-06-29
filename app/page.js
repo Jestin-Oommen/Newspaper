@@ -9,6 +9,7 @@ import MainNews from '../components/MainNews'
 
 import TravelNews from '../components/TravelNews'
 import SportsNews from '../components/SportsNews'
+import BreakingNewsBanner from '../components/BreakingNewsBanner'
 
 const Homepage = () => {
   return (
@@ -20,6 +21,7 @@ const Homepage = () => {
       <SportsNews/>
       <TravelNews/>
       <Footer/>
+      <BreakingNewsBanner/>
     </div>
   )
 }

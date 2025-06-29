@@ -79,6 +79,7 @@ export default function NewsClientPage() {
         <Link href="/">
           <Button>Back to Home page</Button>
         </Link>
+        <Link href={"/dashboard/breaking"}><Button>Breaking News</Button></Link>
       </div>
 
       {loading ? (
