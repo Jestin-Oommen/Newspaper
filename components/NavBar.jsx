@@ -1,22 +1,24 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { Button } from "./ui/button";
+import Link from 'next/link';
+import { useSession, signOut } from 'next-auth/react';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Button } from './ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
-import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
-import { Separator } from "./ui/separator";
-import { Menu, Search } from "lucide-react";
-import { Input } from "./ui/input";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+} from './ui/dropdown-menu';
+import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
+import { Separator } from './ui/separator';
+import { Menu, Search } from 'lucide-react';
+import { Input } from './ui/input';
 
 export function Navbar() {
-  const [searchQuery, setSearchQuery] = useState("");
+  const { data: session } = useSession();
+  const [searchQuery, setSearchQuery] = useState('');
   const router = useRouter();
 
   const handleSearch = () => {
@@ -26,14 +28,16 @@ export function Navbar() {
   };
 
   const categories = [
-    { name: "Politics", slug: "politics" },
-    { name: "Business", slug: "business" },
-    { name: "Technology", slug: "technology" },
-    { name: "Science", slug: "science" },
-    { name: "Health", slug: "health" },
-    { name: "Entertainment", slug: "entertainment" },
-    { name: "Sports", slug: "sports" },
+    { name: 'Politics', slug: 'politics' },
+    { name: 'Business', slug: 'business' },
+    { name: 'Technology', slug: 'technology' },
+    { name: 'Science', slug: 'science' },
+    { name: 'Health', slug: 'health' },
+    { name: 'Entertainment', slug: 'entertainment' },
+    { name: 'Sports', slug: 'sports' },
   ];
+
+  const isPrivileged = session?.user?.role === 'admin' || session?.user?.role === 'editor';
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -54,9 +58,7 @@ export function Navbar() {
                 </div>
                 <Separator />
                 <nav className="flex flex-col gap-4">
-                  <Link href="/" className="font-medium hover:text-primary">
-                    Home
-                  </Link>
+                  <Link href="/" className="font-medium hover:text-primary">Home</Link>
                   <DropdownMenu>
                     <DropdownMenuTrigger className="flex items-center gap-1 font-medium hover:text-primary">
                       Categories
@@ -64,19 +66,28 @@ export function Navbar() {
                     <DropdownMenuContent className="w-[200px]">
                       {categories.map((category) => (
                         <DropdownMenuItem key={category.slug} asChild>
-                          <Link href={`/category/${category.slug}`}>
-                            {category.name}
-                          </Link>
+                          <Link href={`/category/${category.slug}`}>{category.name}</Link>
                         </DropdownMenuItem>
                       ))}
                     </DropdownMenuContent>
                   </DropdownMenu>
-                  <Link href="/about" className="font-medium hover:text-primary">
-                    About
-                  </Link>
-                  <Link href="/dashboard/news" className="font-medium hover:text-primary">
-                    Dashboard
-                  </Link>
+                  <Link href="/about" className="font-medium hover:text-primary">About</Link>
+
+                  {isPrivileged && (
+                    <Link href="/dashboard/news" className="font-medium hover:text-primary">
+                      Dashboard
+                    </Link>
+                  )}
+
+                  {!session?.user ? (
+                    <Link href="/login" className="font-medium hover:text-primary">
+                      Login
+                    </Link>
+                  ) : (
+                    <button onClick={() => signOut()} className="font-medium hover:text-primary text-left">
+                      Sign Out
+                    </button>
+                  )}
                 </nav>
                 <Separator />
                 <div className="relative">
@@ -106,10 +117,7 @@ export function Navbar() {
           </Link>
 
           <nav className="hidden md:flex items-center gap-6">
-            <Link
-              href="/"
-              className="text-sm font-medium hover:text-primary transition-colors"
-            >
+            <Link href="/" className="text-sm font-medium hover:text-primary transition-colors">
               Home
             </Link>
             <DropdownMenu>
@@ -119,29 +127,26 @@ export function Navbar() {
               <DropdownMenuContent className="w-[200px]">
                 {categories.map((category) => (
                   <DropdownMenuItem key={category.slug} asChild>
-                    <Link href={`/category/${category.slug}`}>
-                      {category.name}
-                    </Link>
+                    <Link href={`/category/${category.slug}`}>{category.name}</Link>
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
-            <Link
-              href="/about"
-              className="text-sm font-medium hover:text-primary transition-colors"
-            >
+            <Link href="/about" className="text-sm font-medium hover:text-primary transition-colors">
               About
             </Link>
-            <Link
-              href="/dashboard/news"
-              className="text-sm font-medium hover:text-primary transition-colors"
-            >
-              Dashboard
-            </Link>
+
+            {isPrivileged && (
+              <Link href="/dashboard/news" className="text-sm font-medium hover:text-primary transition-colors mr-2">
+                Dashboard
+              </Link>
+            )}
+
+            
           </nav>
         </div>
 
-        {/* Search and auth */}
+        {/* Search and subscribe */}
         <div className="flex items-center gap-4">
           <div className="relative hidden md:block">
             <Input
@@ -150,7 +155,7 @@ export function Navbar() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === "Enter") handleSearch();
+                if (e.key === 'Enter') handleSearch();
               }}
             />
             <Button
@@ -165,6 +170,18 @@ export function Navbar() {
           <Button variant="outline" size="sm" className="hidden sm:flex">
             Subscribe
           </Button>
+          {!session?.user ? (
+              <Link href="/login" className="text-sm font-medium hover:text-primary transition-colors">
+                Login
+              </Link>
+            ) : (
+              <Button
+                onClick={() => signOut()}
+                className="text-sm font-medium hover:text-primary transition-colors"
+              >
+                Sign Out
+              </Button>
+            )}
         </div>
       </div>
     </header>

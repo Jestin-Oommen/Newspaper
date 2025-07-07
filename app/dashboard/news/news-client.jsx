@@ -1,6 +1,7 @@
-// app/dashboard/news/news-client.jsx
 'use client';
 
+import { useSession } from 'next-auth/react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,10 +14,10 @@ import {
   TableRow
 } from '@/components/ui/table';
 import Link from 'next/link';
-import { useSearchParams, useRouter } from 'next/navigation';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function NewsClientPage() {
+  const { data: session, status } = useSession();
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -25,7 +26,18 @@ export default function NewsClientPage() {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // ✅ Redirect unauthenticated users
   useEffect(() => {
+    if (status === 'loading') return; // wait for session
+    if (!session) {
+      router.push('/login');
+    } else if (session.user.role !== 'admin' && session.user.role !== 'editor') {
+      router.push('/');
+    }
+  }, [session, status, router]);
+
+  useEffect(() => {
+    if (!session || status !== 'authenticated') return;
     const fetchArticles = async () => {
       setLoading(true);
       try {
@@ -40,7 +52,7 @@ export default function NewsClientPage() {
     };
 
     fetchArticles();
-  }, [category]);
+  }, [category, session, status]);
 
   const handleCategoryChange = (e) => {
     const value = e.target.value;
@@ -62,6 +74,10 @@ export default function NewsClientPage() {
     }
   };
 
+  if (status === 'loading' || !session) {
+    return null; // or loading spinner
+  }
+
   return (
     <div className="max-w-5xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4">Manage Articles - {category}</h1>
@@ -73,12 +89,8 @@ export default function NewsClientPage() {
           onChange={handleCategoryChange}
           className="max-w-sm"
         />
-        <Link href="/create">
-          <Button>Create New</Button>
-        </Link>
-        <Link href="/">
-          <Button>Back to Home page</Button>
-        </Link>
+        <Link href="/create"><Button>Create New</Button></Link>
+        <Link href="/"><Button>Back to Home page</Button></Link>
         <Link href={"/dashboard/breaking"}><Button>Breaking News</Button></Link>
       </div>
 
@@ -110,14 +122,10 @@ export default function NewsClientPage() {
               <TableRow key={article.id}>
                 <TableCell>{article.title}</TableCell>
                 <TableCell>{article.category}</TableCell>
-                <TableCell>
-                  {new Date(article.createdAt).toLocaleDateString()}
-                </TableCell>
+                <TableCell>{new Date(article.createdAt).toLocaleDateString()}</TableCell>
                 <TableCell className="text-right space-x-2">
                   <Link href={`/edit/${article.id}`}>
-                    <Button variant="outline" size="sm">
-                      Edit
-                    </Button>
+                    <Button variant="outline" size="sm">Edit</Button>
                   </Link>
                   <Button
                     variant="destructive"

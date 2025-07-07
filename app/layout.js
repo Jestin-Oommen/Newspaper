@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Providers } from "./providers"; // ✅ import Providers
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,14 +21,16 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <script
-  data-ad-client="ca-pub-1481167001425305"
-  async
-  src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-></script>
+        data-ad-client="ca-pub-1481167001425305"
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+      ></script>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <Providers> {/* ✅ wrap children in SessionProvider here */}
+          {children}
+        </Providers>
       </body>
     </html>
   );
