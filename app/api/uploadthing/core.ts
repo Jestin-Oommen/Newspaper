@@ -9,7 +9,7 @@ const f = createUploadthing();
 export const ourFileRouter = {
   epaperUploader: f({ pdf: { maxFileSize: "16MB" } }).onUploadComplete(
     async ({ file }) => {
-      console.log("Upload complete:", file.url);
+      console.log("Upload complete:", file.ufsUrl);
 
   
 
@@ -17,7 +17,7 @@ export const ourFileRouter = {
       await prisma.ePaper.deleteMany(); // delete old one
       await prisma.ePaper.create({
         data: {
-          url: file.url,
+          url: file.ufsUrl,
         },
       });
 
