@@ -94,7 +94,7 @@ export default function NewsClientPage() {
         <Link href={"/dashboard/breaking"}><Button>Breaking News</Button></Link>
         <Link href={"/dashboard/users"}><Button>Config Users</Button></Link>
         <Link href="/dashboard/enewspaper">
-          <Button variant="secondary">Upload E-Newspaper</Button>
+          <Button>Upload E-Newspaper</Button>
         </Link>
 
 

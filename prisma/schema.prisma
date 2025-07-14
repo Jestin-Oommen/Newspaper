@@ -29,11 +29,13 @@ model User {
   updatedAt DateTime? @updatedAt
 }
 
-model Enews {
+model ePaper {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   url       String
-  uploadedAt DateTime @default(now())
+  createdAt DateTime @default(now())
 }
+
+
 
 
 

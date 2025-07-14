@@ -1,49 +1,42 @@
 'use client';
 import { useState } from 'react';
 
-export default function UploadENewspaperPage() {
-  const [file, setFile] = useState(null);
-  const [url, setUrl] = useState('');
+import { UploadButton } from "./../../../src/utils/uploadthing";
+import EpaperUpload from '@/components/EpaperUpload';
+
+export default function UploadEpaperPage() {
   const [message, setMessage] = useState('');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!file) return setMessage('Please select a file');
-
-    const formData = new FormData();
-    formData.append('file', file);
-
-    const res = await fetch('/api/enewspaper/upload', {
+  const handleUploadSuccess = async (url) => {
+    const res = await fetch('/api/epaper', {
       method: 'POST',
-      body: formData,
+      body: JSON.stringify({ pdfUrl: url }),
+      headers: { 'Content-Type': 'application/json' },
     });
 
-    const result = await res.json();
-    if (result.success) {
-      setMessage('E-Newspaper uploaded!');
-      setUrl(result.url);
+    if (res.ok) {
+      setMessage('E-paper uploaded successfully!');
     } else {
-      setMessage('Upload failed.');
+      setMessage('Failed to save e-paper.');
     }
   };
 
   return (
-    <div className="p-6 max-w-md mx-auto">
-      <h2 className="text-xl font-bold mb-4">Upload Today's E-Newspaper</h2>
-      <form onSubmit={handleSubmit}>
-        <input type="file" accept="application/pdf" onChange={(e) => setFile(e.target.files[0])} />
-        <button type="submit" className="bg-blue-600 text-white mt-2 px-4 py-2 rounded">
-          Upload
-        </button>
-      </form>
-      {message && <p className="mt-4">{message}</p>}
-      {url && (
-        <p className="mt-2 text-blue-600 underline">
-          <a href={url} target="_blank" rel="noopener noreferrer">
-            Download PDF
-          </a>
-        </p>
-      )}
-    </div>
+    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+     <UploadButton
+  endpoint="epaperUploader" // change this!
+  onClientUploadComplete={(res) => {
+    console.log("Files: ", res);
+    if (res && res[0]?.url) {
+      handleUploadSuccess(res[0].url);
+    }
+    alert("Upload Completed");
+  }}
+  onUploadError={(error) => {
+    alert(`ERROR! ${error.message}`);
+  }}
+/>
+
+    </main>
   );
 }

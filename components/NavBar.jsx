@@ -19,7 +19,7 @@ import { Input } from './ui/input';
 export function Navbar() {
   const { data: session } = useSession();
   const [searchQuery, setSearchQuery] = useState('');
-  const [pdfUrl, setPdfUrl] = useState(null);
+  const [pdfUrl, setPdfUrl] = useState('');
   const router = useRouter();
 
   const handleSearch = () => {
@@ -37,13 +37,13 @@ export function Navbar() {
 
   const isPrivileged = session?.user?.role === 'admin' || session?.user?.role === 'editor';
 
-  useEffect(() => {
-    const fetchPdfUrl = async () => {
-      const res = await fetch('/api/enewspaper/latest');
+useEffect(() => {
+    const fetchPdf = async () => {
+      const res = await fetch('/api/epaper');
       const data = await res.json();
-      if (data.url) setPdfUrl(data.url);
+      if (data?.url) setPdfUrl(data.url);
     };
-    fetchPdfUrl();
+    fetchPdf();
   }, []);
 
   return (
@@ -78,14 +78,14 @@ export function Navbar() {
                   <Link href="/about" className="font-medium hover:text-primary">About</Link>
 
                   {pdfUrl && (
-                    <Link
-                      href={pdfUrl}
-                      target="_blank"
-                      className="text-sm font-medium hover:text-primary transition-colors"
-                    >
-                      E-Newspaper
-                    </Link>
-                  )}
+        <Link href={pdfUrl} target="_blank" rel="noopener noreferrer">
+          
+             Download E-Paper
+          
+        </Link>
+      )}
+
+                  
 
                   {isPrivileged && (
                     <Link href="/dashboard/news" className="font-medium hover:text-primary">
@@ -182,14 +182,13 @@ export function Navbar() {
             </Button>
           </div>
           {pdfUrl && (
-              <Link
-                href={pdfUrl}
-                target="_blank"
-                className="hidden md:inline-block text-sm font-medium hover:text-primary transition-colors "
-              >
-                <Button><Newspaper/>E-news</Button>
-              </Link>
-            )}
+        <Link href={pdfUrl} target="_blank" rel="noopener noreferrer">
+          <Button className="flex items-center gap-2 hidden md:inline-block">
+            <Newspaper size={16} /> Download E-Paper
+          </Button>
+        </Link>
+      )}
+
           
           {!session?.user ? (
             <Link href="/login" className="hidden md:inline-block text-sm font-medium hover:text-primary transition-colors">
