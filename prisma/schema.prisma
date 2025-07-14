@@ -25,7 +25,15 @@ model User {
   email     String   @unique
   password  String
   role      String   @default("user") // "admin" or "editor"
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 }
+
+model Enews {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  url       String
+  uploadedAt DateTime @default(now())
+}
+
+
 

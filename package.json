@@ -21,6 +21,7 @@
     "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.2",
     "class-variance-authority": "^0.7.1",
+    "cloudinary": "^2.7.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.514.0",
     "next": "15.3.3",
@@ -30,7 +31,7 @@
     "react-hook-form": "^7.57.0",
     "react-icons": "^5.5.0",
     "tailwind-merge": "^3.3.1",
-    "uploadthing": "^7.7.2",
+    "uploadthing": "^7.7.3",
     "zod": "^3.25.63"
   },
   "devDependencies": {

@@ -92,6 +92,12 @@ export default function NewsClientPage() {
         <Link href="/create"><Button>Create New</Button></Link>
         <Link href="/"><Button>Back to Home page</Button></Link>
         <Link href={"/dashboard/breaking"}><Button>Breaking News</Button></Link>
+        <Link href={"/dashboard/users"}><Button>Config Users</Button></Link>
+        <Link href="/dashboard/enewspaper">
+          <Button variant="secondary">Upload E-Newspaper</Button>
+        </Link>
+
+
       </div>
 
       {loading ? (

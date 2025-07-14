@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 
 export default function NewsForm() {
   
-  console.log(process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME)
+  
   const [formData, setFormData] = useState({
     title: '',
     description: '',

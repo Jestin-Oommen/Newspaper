@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from './ui/button';
 import {
@@ -13,12 +13,13 @@ import {
 } from './ui/dropdown-menu';
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
 import { Separator } from './ui/separator';
-import { Menu, Search } from 'lucide-react';
+import { Menu, Newspaper, Search } from 'lucide-react';
 import { Input } from './ui/input';
 
 export function Navbar() {
   const { data: session } = useSession();
   const [searchQuery, setSearchQuery] = useState('');
+  const [pdfUrl, setPdfUrl] = useState(null);
   const router = useRouter();
 
   const handleSearch = () => {
@@ -30,14 +31,20 @@ export function Navbar() {
   const categories = [
     { name: 'Politics', slug: 'politics' },
     { name: 'Business', slug: 'business' },
-    { name: 'Technology', slug: 'technology' },
-    { name: 'Science', slug: 'science' },
-    { name: 'Health', slug: 'health' },
-    { name: 'Entertainment', slug: 'entertainment' },
     { name: 'Sports', slug: 'sports' },
+    { name: 'Travel', slug: 'travel' },
   ];
 
   const isPrivileged = session?.user?.role === 'admin' || session?.user?.role === 'editor';
+
+  useEffect(() => {
+    const fetchPdfUrl = async () => {
+      const res = await fetch('/api/enewspaper/latest');
+      const data = await res.json();
+      if (data.url) setPdfUrl(data.url);
+    };
+    fetchPdfUrl();
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -48,14 +55,11 @@ export function Navbar() {
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
                 <Menu className="h-5 w-5" />
-                <span className="sr-only">Toggle menu</span>
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-[300px] sm:w-[400px]">
               <div className="flex flex-col gap-6">
-                <div className="flex items-center gap-2">
-                  <img src="/newslogo.jpg" alt="Logo" className="h-15 w-30" />
-                </div>
+                <img src="/newslogo.jpg" alt="Logo" className="h-15 w-30" />
                 <Separator />
                 <nav className="flex flex-col gap-4">
                   <Link href="/" className="font-medium hover:text-primary">Home</Link>
@@ -72,6 +76,16 @@ export function Navbar() {
                     </DropdownMenuContent>
                   </DropdownMenu>
                   <Link href="/about" className="font-medium hover:text-primary">About</Link>
+
+                  {pdfUrl && (
+                    <Link
+                      href={pdfUrl}
+                      target="_blank"
+                      className="text-sm font-medium hover:text-primary transition-colors"
+                    >
+                      E-Newspaper
+                    </Link>
+                  )}
 
                   {isPrivileged && (
                     <Link href="/dashboard/news" className="font-medium hover:text-primary">
@@ -136,17 +150,17 @@ export function Navbar() {
               About
             </Link>
 
+            
+
             {isPrivileged && (
-              <Link href="/dashboard/news" className="text-sm font-medium hover:text-primary transition-colors mr-2">
+              <Link href="/dashboard/news" className="text-sm font-medium hover:text-primary transition-colors">
                 Dashboard
               </Link>
             )}
-
-            
           </nav>
         </div>
 
-        {/* Search and subscribe */}
+        {/* Search */}
         <div className="flex items-center gap-4">
           <div className="relative hidden md:block">
             <Input
@@ -167,21 +181,28 @@ export function Navbar() {
               <Search className="h-4 w-4" />
             </Button>
           </div>
-          <Button variant="outline" size="sm" className="hidden sm:flex">
-            Subscribe
-          </Button>
-          {!session?.user ? (
-              <Link href="/login" className="text-sm font-medium hover:text-primary transition-colors">
-                Login
-              </Link>
-            ) : (
-              <Button
-                onClick={() => signOut()}
-                className="text-sm font-medium hover:text-primary transition-colors"
+          {pdfUrl && (
+              <Link
+                href={pdfUrl}
+                target="_blank"
+                className="hidden md:inline-block text-sm font-medium hover:text-primary transition-colors "
               >
-                Sign Out
-              </Button>
+                <Button><Newspaper/>E-news</Button>
+              </Link>
             )}
+          
+          {!session?.user ? (
+            <Link href="/login" className="hidden md:inline-block text-sm font-medium hover:text-primary transition-colors">
+              Login
+            </Link>
+          ) : (
+            <Button
+              onClick={() => signOut()}
+              className="hidden md:inline-block text-sm font-medium hover:text-primary transition-colors"
+            >
+              Sign Out
+            </Button>
+          )}
         </div>
       </div>
     </header>
