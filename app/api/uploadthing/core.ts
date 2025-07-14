@@ -11,6 +11,8 @@ export const ourFileRouter = {
     async ({ file }) => {
       console.log("Upload complete:", file.url);
 
+  
+
       // Save URL to DB
       await prisma.ePaper.deleteMany(); // delete old one
       await prisma.ePaper.create({
