@@ -77,10 +77,9 @@ useEffect(() => {
                   </DropdownMenu>
                   <Link href="/about" className="font-medium hover:text-primary">About</Link>
 
-                  {pdfUrl && (
+                 {pdfUrl && (
         <Link href={pdfUrl} target="_blank" rel="noopener noreferrer">
-          
-             Download E-Paper
+           E-Paper
           
         </Link>
       )}
@@ -183,8 +182,8 @@ useEffect(() => {
           </div>
           {pdfUrl && (
         <Link href={pdfUrl} target="_blank" rel="noopener noreferrer">
-          <Button className="flex items-center gap-2 hidden md:inline-block">
-            <Newspaper size={16} /> Download E-Paper
+          <Button className="hidden md:inline-block">
+              Download E-Paper
           </Button>
         </Link>
       )}
