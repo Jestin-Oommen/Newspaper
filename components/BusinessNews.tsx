@@ -52,7 +52,7 @@ const BusinessNews = () => {
                 href={`/news/${article.id}`}
                 className="hover:shadow-md p-3 rounded bg-white border transition space-y-2"
               >
-                <Image
+                <img
                   src={article.imageUrl}
                   alt={article.title}
                   className="w-full h-32 object-cover rounded"

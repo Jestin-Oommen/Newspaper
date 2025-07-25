@@ -38,7 +38,7 @@ const SportsNews = () => {
             href={`/news/${article.id}`}
             className="hover:shadow-md p-3 rounded bg-white border transition"
           >
-            <Image
+            <img
               src={article.imageUrl}
               alt={article.title}
               className="w-full h-32 object-cover rounded mb-2"
