@@ -53,7 +53,7 @@ export default function MainNews() {
               href={`/news/${mainHeadline.id}`}
               className="inline-block mt-2 ml-2 font-medium hover"
             >
-            <Image
+            <img
               src={mainHeadline.imageUrl}
               className="w-full h-80 object-cover rounded"
               alt={mainHeadline.title}
@@ -94,7 +94,7 @@ export default function MainNews() {
                 href={`/news/${news.id}`}
                 className="block border-b pb-4 hover:bg-gray-50 rounded p-2"
               >
-                <Image
+                <img
                   src={news.imageUrl}
                   alt={news.title}
                   className="w-full h-24 object-cover rounded mb-2"
