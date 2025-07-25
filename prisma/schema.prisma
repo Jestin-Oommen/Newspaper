@@ -35,6 +35,13 @@ model ePaper {
   createdAt DateTime @default(now())
 }
 
+model BreakingNews {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  headline  String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
 
 
 

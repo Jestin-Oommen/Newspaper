@@ -1,23 +1,32 @@
+import { prisma } from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 
-let breakingNews = {
-  headline: '',
-  expiresAt: 0,
-};
-
-export async function POST(req: Request) {
+export async function POST(req) {
   const { headline, duration } = await req.json();
-  const expiresAt = Date.now() + duration * 1000;
+  const expiresAt = new Date(Date.now() + duration * 1000);
 
-  breakingNews = { headline, expiresAt };
+  // Delete any existing news
+  await prisma.breakingNews.deleteMany();
 
-  return NextResponse.json({ success: true });
+  // Create new breaking news
+  const saved = await prisma.breakingNews.create({
+    data: {
+      headline,
+      expiresAt,
+    },
+  });
+
+  return NextResponse.json({ success: true, data: saved });
 }
 
 export async function GET() {
-  if (Date.now() > breakingNews.expiresAt) {
+  const latest = await prisma.breakingNews.findFirst({
+    orderBy: { createdAt: 'desc' },
+  });
+
+  if (!latest || new Date() > latest.expiresAt) {
     return NextResponse.json({ headline: '' });
   }
 
-  return NextResponse.json(breakingNews);
+  return NextResponse.json(latest);
 }

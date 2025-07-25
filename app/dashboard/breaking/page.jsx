@@ -1,6 +1,6 @@
 import React from 'react'
 
-import BreakingNewsForm from '../../../components/BreakingNews'
+import BreakingNewsForm from '../../../components/BreakingNewsForm'
 
 const page = () => {
   return (

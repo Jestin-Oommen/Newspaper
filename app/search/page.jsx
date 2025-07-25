@@ -1,24 +1,43 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
-
+import { parse, isValid, startOfDay, endOfDay } from 'date-fns';
 export const dynamic = "force-dynamic";
 
 // 🧠 Helper function to fetch articles by search query
 async function getSearchResults(query) {
   if (!query) return [];
 
+  const lowerQuery = query.toLowerCase();
+
+  // Attempt to parse input like "21 June 2025" or "21 June"
+  let parsedDate = parse(lowerQuery, 'dd MMMM yyyy', new Date());
+
+  if (!isValid(parsedDate)) {
+    parsedDate = parse(lowerQuery, 'dd MMMM', new Date());
+  }
+
+  const isDateQuery = isValid(parsedDate);
+
   return prisma.article.findMany({
-    where: {
-      OR: [
-        { title: { contains: query, mode: "insensitive" } },
-        { description: { contains: query, mode: "insensitive" } }
-      ]
-    },
+    where: isDateQuery
+      ? {
+          createdAt: {
+            gte: startOfDay(parsedDate),
+            lte: endOfDay(parsedDate),
+          },
+        }
+      : {
+          OR: [
+            { title: { contains: query, mode: 'insensitive' } },
+            { description: { contains: query, mode: 'insensitive' } },
+          ],
+        },
     orderBy: {
-      createdAt: "desc"
-    }
+      createdAt: 'desc',
+    },
   });
 }
+
 
 // 🔍 Search page component
 export default async function SearchPage({ searchParams }) {
