@@ -48,20 +48,25 @@ export default function MainNews() {
           </>
         ) : mainHeadline ? (
           <>
+          <Link
+              href={`/news/${mainHeadline.id}`}
+              className="inline-block mt-2 ml-2 font-medium hover"
+            >
             <img
               src={mainHeadline.imageUrl}
               className="w-full h-80 object-cover rounded"
               alt={mainHeadline.title}
             />
-            <h1 className="text-2xl font-bold">{mainHeadline.title}</h1>
+            <h1 className="text-2xl font-bold mt-2">{mainHeadline.title}</h1>
             <p className="text-gray-600">{mainHeadline.description}</p>
             <p className="text-xs text-muted-foreground">
                 {new Date(mainHeadline.createdAt).toLocaleDateString()}
               </p>
+              </Link>
 
             <Link
               href={`/news/${mainHeadline.id}`}
-              className="inline-block mt-2 text-blue-600 font-medium hover:underline"
+              className="inline-block  ml-2 mt-2 text-blue-600 font-medium hover:underline"
             >
               Read More →
             </Link>

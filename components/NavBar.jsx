@@ -108,6 +108,10 @@ useEffect(() => {
                     placeholder="Search news..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyDown={(e) => {
+                if (e.key === 'Enter') handleSearch();
+              }}
+                    
                   />
                   <Button
                     variant="ghost"
