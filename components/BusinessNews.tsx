@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Skeleton } from "../components/ui/skeleton";
+import Image from 'next/image';
 
 type Article = {
   id: string;
@@ -51,7 +52,7 @@ const BusinessNews = () => {
                 href={`/news/${article.id}`}
                 className="hover:shadow-md p-3 rounded bg-white border transition space-y-2"
               >
-                <img
+                <Image
                   src={article.imageUrl}
                   alt={article.title}
                   className="w-full h-32 object-cover rounded"

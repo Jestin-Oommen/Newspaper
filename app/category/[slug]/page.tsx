@@ -41,12 +41,13 @@ export default async function CategoryPage({ params }) {
         {/* Main Featured */}
         <div className="lg:col-span-2 border rounded-lg overflow-hidden shadow-sm">
           {featured.imageUrl && (
-            <img
+            <Image
               src={featured.imageUrl}
               alt={featured.title}
               width={800}
               height={400}
               className="w-full h-64 object-cover"
+              unoptimized // optional: remove if you configure domains in next.config.js
             />
           )}
           <div className="p-4">
@@ -68,8 +69,8 @@ export default async function CategoryPage({ params }) {
                 <div className="font-semibold leading-tight">{article.title}</div>
                 <p className="text-xs text-muted-foreground">{article.description?.slice(0, 60)}...</p>
                 <p className="text-xs text-muted-foreground">
-                {new Date(article.createdAt).toLocaleDateString()}
-              </p>
+                  {new Date(article.createdAt).toLocaleDateString()}
+                </p>
               </Link>
             </div>
           ))}
@@ -83,21 +84,20 @@ export default async function CategoryPage({ params }) {
           {grid.map((article) => (
             <Link key={article.id} href={`/news/${article.id}`} className="border rounded-lg overflow-hidden">
               {article.imageUrl && (
-                <img
+                <Image
                   src={article.imageUrl}
                   alt={article.title}
                   width={400}
                   height={200}
                   className="w-full h-40 object-cover"
+                  unoptimized // optional
                 />
               )}
               <div className="p-3">
-
                 <h3 className="font-medium">{article.title}</h3>
-                
                 <p className="text-xs text-muted-foreground">
-                {new Date(article.createdAt).toLocaleDateString()}
-              </p>
+                  {new Date(article.createdAt).toLocaleDateString()}
+                </p>
               </div>
             </Link>
           ))}

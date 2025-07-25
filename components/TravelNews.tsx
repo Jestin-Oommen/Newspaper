@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 type Article = {
@@ -37,7 +38,7 @@ export default function TravelNews() {
             href={`/news/${article.id}`}
             className="block hover:shadow-md bg-white border p-3 rounded transition"
           >
-            <img
+            <Image
               src={article.imageUrl}
               alt={article.title}
               className="w-full h-32 object-cover rounded mb-2"

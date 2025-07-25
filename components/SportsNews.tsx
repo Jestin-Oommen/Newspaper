@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 
 type Article = {
@@ -37,7 +38,7 @@ const SportsNews = () => {
             href={`/news/${article.id}`}
             className="hover:shadow-md p-3 rounded bg-white border transition"
           >
-            <img
+            <Image
               src={article.imageUrl}
               alt={article.title}
               className="w-full h-32 object-cover rounded mb-2"

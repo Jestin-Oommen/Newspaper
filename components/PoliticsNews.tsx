@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Skeleton } from '../components/ui/skeleton';
+import Image from 'next/image';
 
 type Article = {
   id: string;
@@ -56,7 +57,7 @@ export default function PoliticsNews() {
               rel="noopener noreferrer"
               className="md:col-span-2 block"
             >
-              <img
+              <Image
                 src={politicsMain.imageUrl}
                 alt={politicsMain.title}
                 className="w-full h-64 object-cover mb-2 rounded"
@@ -86,7 +87,7 @@ export default function PoliticsNews() {
                   rel="noopener noreferrer"
                   className="flex gap-2 hover:bg-gray-100 p-1 rounded transition"
                 >
-                  <img
+                  <Image
                     src={item.imageUrl}
                     alt={item.title}
                     className="w-20 h-16 object-cover rounded"

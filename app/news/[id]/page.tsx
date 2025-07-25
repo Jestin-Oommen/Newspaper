@@ -5,6 +5,7 @@ import { notFound, useParams } from 'next/navigation';
 import Link from 'next/link';
 import GoogleAd from '../../../components/GoogleAd';
 import { Skeleton } from '../../../components/ui/skeleton';
+import Image from 'next/image';
 
 type Article = {
   id: string;
@@ -14,7 +15,7 @@ type Article = {
   imageUrl?: string;
   category: string;
   author: string;
-  createdAt:string;
+  createdAt: string;
 };
 
 export default function NewsPage() {
@@ -63,25 +64,28 @@ export default function NewsPage() {
   return (
     <div className="max-w-3xl mx-auto py-10 px-4 space-y-8">
       <div>
-        <Link className='underline' href={"/"}>
-          <p className="text-l text-muted-foreground">
-                ⬅️Back to Home Page
-              </p>
+        <Link className="underline" href="/">
+          <p className="text-l text-muted-foreground">⬅️Back to Home Page</p>
         </Link>
         <h1 className="text-3xl font-bold">{article?.title}</h1>
         <p className="text-gray-500 text-sm">
-          By {article?.author || 'Unknown'} in {article?.category}  
+          By {article?.author || 'Unknown'} in {article?.category}
         </p>
         <p className="text-xs text-muted-foreground">
-                {new Date(article.createdAt).toLocaleDateString()}
-              </p>
+          {new Date(article.createdAt).toLocaleDateString()}
+        </p>
+
         {article?.imageUrl && (
-          <img
+          <Image
             src={article.imageUrl}
             alt={article.title}
+            width={800}
+            height={400}
             className="w-full h-64 object-cover rounded my-4"
+            unoptimized // remove this if you configure image domains
           />
         )}
+
         <p className="text-lg">{article?.description}</p>
         <div className="prose max-w-none mt-4">{article?.content}</div>
       </div>
@@ -100,16 +104,19 @@ export default function NewsPage() {
                 className="border rounded p-3 hover:shadow transition"
               >
                 {news.imageUrl && (
-                  <img
+                  <Image
                     src={news.imageUrl}
                     alt={news.title}
+                    width={400}
+                    height={200}
                     className="w-full h-32 object-cover rounded mb-2"
+                    unoptimized
                   />
                 )}
                 <h4 className="font-medium">{news.title}</h4>
                 <p className="text-xs text-muted-foreground">
-                {new Date(article.createdAt).toLocaleDateString()}
-              </p>
+                  {new Date(news.createdAt).toLocaleDateString()}
+                </p>
               </Link>
             ))}
           </div>
