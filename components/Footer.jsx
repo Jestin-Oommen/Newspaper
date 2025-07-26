@@ -39,23 +39,7 @@ export default function Footer() {
         </div>
 
         {/* Newsletter */}
-        <div>
-          <h3 className="text-lg font-semibold mb-3">Newsletter</h3>
-          <p className="text-sm mb-2">Get weekly news updates delivered to your inbox.</p>
-          <form className="flex flex-col gap-2">
-            <input
-              type="email"
-              placeholder="Your email"
-              className="px-3 py-2 rounded text-gray-900"
-            />
-            <button
-              type="submit"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm"
-            >
-              Subscribe
-            </button>
-          </form>
-        </div>
+        
       </div>
 
       {/* Bottom */}

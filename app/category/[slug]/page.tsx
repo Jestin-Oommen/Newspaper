@@ -39,6 +39,7 @@ export default async function CategoryPage({ params }) {
         </div>
 
         {/* Main Featured */}
+        
         <div className="lg:col-span-2 border rounded-lg overflow-hidden shadow-sm">
           {featured.imageUrl && (
             <Image
@@ -51,14 +52,17 @@ export default async function CategoryPage({ params }) {
             />
           )}
           <div className="p-4">
+            <Link href={`/news/${featured.id}`}>
             <h1 className="text-2xl font-bold">{featured.title}</h1>
             <p className="text-sm text-muted-foreground mt-1">{featured.description}</p>
             <div className="text-xs mt-2 flex justify-between text-gray-500">
               <span>By {featured.author}</span>
               <span>{new Date(featured.createdAt).toLocaleDateString()}</span>
             </div>
+            </Link>
           </div>
         </div>
+        
 
         {/* Side Highlight */}
         <div className="lg:col-span-1 space-y-4">

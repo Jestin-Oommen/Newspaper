@@ -105,7 +105,7 @@ useEffect(() => {
                 <Separator />
                 <div className="relative">
                   <Input
-                    placeholder="Search news..."
+                    placeholder="Search news via name or date"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onKeyDown={(e) => {
@@ -156,7 +156,7 @@ useEffect(() => {
             
 
             {isPrivileged && (
-              <Link href="/dashboard/news" className="text-sm font-medium hover:text-primary transition-colors">
+              <Link href="/dashboard/news" className="text-sm pr-2 font-medium hover:text-primary transition-colors">
                 Dashboard
               </Link>
             )}
@@ -167,7 +167,7 @@ useEffect(() => {
         <div className="flex items-center gap-4">
           <div className="relative hidden md:block">
             <Input
-              placeholder="Search news..."
+              placeholder="Search news via name or date"
               className="w-[200px] lg:w-[300px]"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
