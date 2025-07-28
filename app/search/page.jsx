@@ -1,24 +1,21 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { parse, isValid, startOfDay, endOfDay } from 'date-fns';
+
 export const dynamic = "force-dynamic";
 
-// 🧠 Helper function to fetch articles by search query
 async function getSearchResults(query) {
-  if (!query) return [];
+  if (!query) return { articles: [], epaper: null };
 
   const lowerQuery = query.toLowerCase();
-
-  // Attempt to parse input like "21 June 2025" or "21 June"
   let parsedDate = parse(lowerQuery, 'dd MMMM yyyy', new Date());
-
   if (!isValid(parsedDate)) {
     parsedDate = parse(lowerQuery, 'dd MMMM', new Date());
   }
 
   const isDateQuery = isValid(parsedDate);
 
-  return prisma.article.findMany({
+  const articles = await prisma.article.findMany({
     where: isDateQuery
       ? {
           createdAt: {
@@ -36,19 +33,50 @@ async function getSearchResults(query) {
       createdAt: 'desc',
     },
   });
-}
 
+  let epaper = null;
+  if (isDateQuery) {
+    epaper = await prisma.ePaper.findFirst({
+      where: {
+        createdAt: {
+          gte: startOfDay(parsedDate),
+          lte: endOfDay(parsedDate),
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+  }
+
+  return { articles, epaper };
+}
 
 // 🔍 Search page component
 export default async function SearchPage({ searchParams }) {
   const query = searchParams?.query || "";
-  const articles = await getSearchResults(query);
+  const { articles, epaper } = await getSearchResults(query);
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-12">
+      <Link className="underline" href="/">
+          <p className="text-l text-muted-foreground">⬅️Back to Home Page</p>
+        </Link>
       <h1 className="text-2xl font-bold mb-6">
         Search results for: <span className="text-primary">{query}</span>
       </h1>
+
+      {epaper && (
+        <div className="mb-8">
+          <a
+            href={epaper.url}
+            target="_blank"
+            className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
+          >
+            📄 Download E-Newspaper for {query}
+          </a>
+        </div>
+      )}
 
       {articles.length === 0 ? (
         <p className="text-gray-500">No articles found.</p>

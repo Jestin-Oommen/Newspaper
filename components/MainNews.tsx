@@ -99,7 +99,7 @@ export default function MainNews() {
                 />
                 <h4 className="text-sm font-semibold">{news.title}</h4>
                 <p className="text-xs text-muted-foreground">
-                {new Date(mainHeadline.createdAt).toLocaleDateString()}
+                {new Date(news.createdAt).toLocaleDateString()}
               </p>
               </Link>
             ))}

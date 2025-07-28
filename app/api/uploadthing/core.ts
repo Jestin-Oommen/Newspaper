@@ -14,7 +14,7 @@ export const ourFileRouter = {
   
 
       // Save URL to DB
-      await prisma.ePaper.deleteMany(); // delete old one
+      // await prisma.ePaper.deleteMany(); // delete old one
       await prisma.ePaper.create({
         data: {
           url: file.ufsUrl,

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function NewsForm() {
   
@@ -100,6 +101,9 @@ if (!uploadResult.secure_url) {
 
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md">
+      <Link className="underline" href="/">
+          <p className="text-l text-muted-foreground">⬅️Back to Home Page</p>
+        </Link>
       <h1 className="text-2xl font-bold mb-6 text-gray-800">Add New Article</h1>
 
       {error && <div className="mb-4 p-3 bg-red-100 text-red-700 rounded">{error}</div>}

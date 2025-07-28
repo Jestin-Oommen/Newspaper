@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { UploadButton } from "./../../../src/utils/uploadthing";
 import { CheckCircle, XCircle, UploadCloud } from 'lucide-react'; // Optional icons
+import Link from 'next/link';
 
 export default function UploadEpaperPage() {
   const [message, setMessage] = useState('');
@@ -48,7 +49,12 @@ export default function UploadEpaperPage() {
             setStatus('error');
           }}
         />
-
+        <Link
+          href="/"
+          className="mt-6 inline-block text-blue-600 text-sm font-medium underline hover:text-blue-800"
+        >
+          ⬅️ Back to Home Page
+        </Link>
         
       </div>
     </main>
