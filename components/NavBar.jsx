@@ -1,4 +1,8 @@
 'use client';
+import {
+  SheetHeader,
+  SheetTitle,
+} from './ui/sheet'; // Make sure these imports are present
 
 import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
@@ -84,6 +88,7 @@ export function Navbar() {
                 <img src="/newslogo.jpg" alt="Logo" className="h-15 w-30" />
                 <Separator />
                 <nav className="flex flex-col gap-4">
+                  
                   <Link href="/" className="font-medium hover:text-primary">Home</Link>
                   <DropdownMenu>
                     <DropdownMenuTrigger className="flex items-center gap-1 font-medium hover:text-primary">
